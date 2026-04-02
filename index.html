@@ -1116,13 +1116,203 @@
        RESPONSIVE ADJUSTMENTS
        These kick in on tablets/phones.
     ============================================================ */
+    body.is-mobile {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body.is-mobile .hero__mockups {
+      margin-top: 40px;
+    }
+
+    body.is-mobile .mockup-window {
+      animation: none;
+    }
+
+    body.is-mobile .comparison {
+      min-width: 560px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero__mockups {
+        gap: 16px;
+      }
+
+      .mockup-window {
+        width: min(100%, 560px);
+      }
+    }
+
     @media (max-width: 768px) {
-      .section { padding: 60px 0; }
-      .nav__links { display: none; } /* Hide nav links on mobile — add a hamburger menu if needed */
-      .mockup-window { width: 100%; }
-      .roadmap { padding: 28px; }
+      .container {
+        padding: 0 16px;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .nav {
+        height: auto;
+        min-height: 64px;
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .nav__logo {
+        font-size: 18px;
+      }
+
+      .nav__links {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 96px;
+      }
+
+      .hero__subtitle {
+        max-width: 100%;
+        margin-bottom: 28px;
+      }
+
+      .hero__actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero__actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero__mockups {
+        margin-top: 36px;
+      }
+
+      .mockup-window {
+        width: 100%;
+      }
+
+      .mockup-body {
+        height: auto;
+        min-height: 250px;
+      }
+
+      .mockup-sidebar {
+        width: 104px;
+        padding: 12px 8px;
+      }
+
+      .mockup-nav-item {
+        padding: 7px 8px;
+        font-size: 10px;
+        gap: 5px;
+      }
+
+      .mockup-main {
+        padding: 12px;
+      }
+
+      .mockup-stat-row {
+        flex-direction: column;
+      }
+
+      .mockup-chart {
+        height: 48px;
+      }
+
+      .trust-strip {
+        padding: 28px 16px;
+      }
+
+      .trust-strip__items {
+        gap: 20px;
+        justify-content: flex-start;
+      }
+
+      .trust-item {
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .feature-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .budget-row {
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .budget-row__label {
+        width: 100%;
+      }
+
+      .budget-row__amount {
+        width: auto;
+        margin-left: auto;
+      }
+
       .comparison th:not(:first-child):not(:nth-child(2)),
-      .comparison td:not(:first-child):not(:nth-child(2)) { display: none; }
+      .comparison td:not(:first-child):not(:nth-child(2)) {
+        display: none;
+      }
+
+      .footer {
+        padding: 40px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero__title {
+        font-size: clamp(34px, 11vw, 48px);
+      }
+
+      .hero__subtitle {
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .section__title {
+        font-size: clamp(28px, 9vw, 38px);
+      }
+
+      .mockup-titlebar {
+        padding: 8px 10px;
+      }
+
+      .mockup-titlebar-label {
+        font-size: 11px;
+      }
+
+      .mockup-body {
+        min-height: 220px;
+      }
+
+      .mockup-sidebar {
+        width: 92px;
+      }
+
+      .mockup-main {
+        padding: 10px;
+      }
+
+      .mockup-stat {
+        padding: 8px;
+      }
+
+      .mockup-stat-value {
+        font-size: 14px;
+      }
+
+      .feature-card,
+      .pricing-card {
+        padding: 24px 20px;
+      }
     }
 
   </style>
@@ -1700,6 +1890,15 @@
     );
 
     bars.forEach(bar => barObserver.observe(bar));
+
+    function updateDeviceType() {
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      document.body.classList.toggle('is-mobile', isMobile);
+      document.body.classList.toggle('is-desktop', !isMobile);
+    }
+
+    updateDeviceType();
+    window.addEventListener('resize', updateDeviceType, { passive: true });
   </script>
 
 </body>
