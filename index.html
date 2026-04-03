@@ -16,6 +16,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
+  /* Password access script, remove before release! */
+  #password-gate {
+  position: fixed;
+  inset: 0;
+  background: #0f1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.gate-box {
+  background: #191d27;
+  padding: 40px;
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid #252b3a;
+}
+
+.gate-box input {
+  padding: 10px;
+  margin-top: 10px;
+  width: 200px;
+}
+
+.gate-box button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+#error-msg {
+  color: red;
+  margin-top: 10px;
+}
+  
     /* ============================================================
        CSS CUSTOM PROPERTIES (VARIABLES)
        Edit these to retheme the entire site quickly.
@@ -1317,8 +1353,31 @@
 
   </style>
 </head>
+/* Password access script, remove before release! */
+<script>
+  const correctPassword = "27708"; // change this
+
+  function checkPassword() {
+    const input = document.getElementById("password-input").value;
+
+    if (input === correctPassword) {
+      document.getElementById("password-gate").style.display = "none";
+    } else {
+      document.getElementById("error-msg").innerText = "Wrong password";
+    }
+  }
+</script>
 
 <body>
+	/* Password access script, remove before release! */
+	<div id="password-gate">
+	<div class="gate-box">
+    <h2>Enter Access Code</h2>
+    <input type="password" id="password-input" placeholder="password" />
+    <button onclick="checkPassword()">Enter</button>
+    <p id="error-msg"></p>
+  </div>
+</div>
 
   <nav class="nav" id="nav">
     <div class="nav__logo">
@@ -1340,7 +1399,7 @@
       <div class="hero__inner">
 
         <div class="hero__eyebrow fade-up">
-          <span class="pill pill--green">🇬🇧 Built for the UK</span>
+          <span class="pill pill--green">🇬🇧 Made in Britain</span>
         </div>
 
         <h1 class="hero__title fade-up">
@@ -1486,6 +1545,13 @@
         <div>
           <strong>No Subscription</strong>
           Start free and upgrade once if you want more.
+        </div>
+      </div>
+	  <div class="trust-item">
+        <span class="trust-item__icon">💵</span>
+        <div>
+          <strong>Multiple Currencies</strong>
+          GBP, USD, EUR and MORE!
         </div>
       </div>
     </div>
@@ -1682,7 +1748,7 @@
           <div class="pricing-card pricing-card--dark featured fade-up">
             <div class="pricing-card__badge">Best Value</div>
             <div class="pricing-card__name">Premium</div>
-            <div class="pricing-card__price" style="color:var(--budgie-green)">One-time</div>
+            <div class="pricing-card__price" style="color:var(--budgie-green)">£34.99</div>
             <div class="pricing-card__period">Lifetime licence · no subscription ever</div>
             <ul class="pricing-card__features">
               <li>Everything in Free</li>
@@ -1775,6 +1841,7 @@
               <td>Only if you build it well</td>
               <td>Varies by app</td>
             </tr>
+
           </tbody>
         </table>
       </div>
@@ -1811,7 +1878,7 @@
         <div class="fade-up" style="display:flex;justify-content:center;margin-top:20px;">
           <div class="made-in-britain">
             <span class="made-in-britain__flag">&#127468;&#127463;</span>
-            <span class="made-in-britain__text"><strong>Made in Britain</strong> — designed, built &amp; supported in the UK</span>
+            <span class="made-in-britain__text"><strong>Made in Britain</strong> — designed & built in the UK</span>
           </div>
         </div>
 
@@ -1831,7 +1898,7 @@
       <a href="#">Support</a>
     </div>
 
-    <div>© <span id="year"></span> Budgie Personal. All rights reserved.</div>
+    <div>© <span id="year"></span> Budgie Personal & Budgie Solutions. All rights reserved.</div>
   </footer>
 
   <script>
