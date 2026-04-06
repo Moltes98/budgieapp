@@ -1003,6 +1003,12 @@
     .comparison td.cross { opacity: 0.35; }
     .comparison tr:hover td { background: rgba(255,255,255,0.02); }
 
+    .comparison-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     /* ============================================================
        ROADMAP / COMING SOON (Clariqo Business alpha callout)
     ============================================================ */
@@ -1167,7 +1173,7 @@
     }
 
     body.is-mobile .comparison {
-      min-width: 560px;
+      min-width: 760px;
     }
 
     @media (max-width: 1024px) {
@@ -1231,35 +1237,11 @@
       }
 
       .mockup-window {
-        width: 100%;
+        width: min(100%, 480px);
       }
 
       .mockup-body {
-        height: auto;
-        min-height: 250px;
-      }
-
-      .mockup-sidebar {
-        width: 104px;
-        padding: 12px 8px;
-      }
-
-      .mockup-nav-item {
-        padding: 7px 8px;
-        font-size: 10px;
-        gap: 5px;
-      }
-
-      .mockup-main {
-        padding: 12px;
-      }
-
-      .mockup-stat-row {
-        flex-direction: column;
-      }
-
-      .mockup-chart {
-        height: 48px;
+        height: 280px;
       }
 
       .trust-strip {
@@ -1295,9 +1277,9 @@
         margin-left: auto;
       }
 
-      .comparison th:not(:first-child):not(:nth-child(2)),
-      .comparison td:not(:first-child):not(:nth-child(2)) {
-        display: none;
+      .comparison {
+        width: 760px;
+        min-width: 760px;
       }
 
       .footer {
@@ -1369,39 +1351,12 @@
         text-align: center;
       }
 
-      .mockup-period-card,
-      .mockup-mini-stats,
-      .mockup-sidebar-heading {
-        width: 100%;
-      }
-
-      .mockup-brand-box {
-        min-height: 42px;
-        font-size: 11px;
-        padding: 6px;
-      }
-
-      .mockup-mini-stat {
-        padding: 7px 8px;
-        font-size: 9px;
-      }
-
-      .mockup-mini-stat strong {
-        font-size: 10px;
-      }
-
       .section-logo img {
         height: 64px !important;
       }
 
       .pricing-card__price {
         font-size: 34px;
-      }
-
-      .comparison {
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
     }
 
@@ -1427,30 +1382,8 @@
       }
 
       .mockup-window {
+        width: min(100%, 420px);
         border-radius: 12px;
-      }
-
-      .mockup-sidebar {
-        width: 88px;
-        padding: 10px 6px;
-      }
-
-      .mockup-nav-item {
-        font-size: 9px;
-        line-height: 1.25;
-        gap: 4px;
-      }
-
-      .mockup-main {
-        padding: 9px;
-      }
-
-      .mockup-stat-label {
-        font-size: 8px;
-      }
-
-      .mockup-stat-value {
-        font-size: 13px;
       }
 
       .trust-strip__items {
@@ -1882,7 +1815,7 @@
         </p>
       </div>
 
-      <div style="overflow-x:auto" class="fade-up">
+      <div class="fade-up comparison-wrap">
         <table class="comparison">
           <thead>
             <tr>
