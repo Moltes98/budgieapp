@@ -15,6 +15,8 @@
   --blue:#2563eb;
   --text:#e8ecf4;
   --muted:#6b7694;
+  --success:#2dd4bf;
+  --error:#ef4444;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -66,6 +68,12 @@ input, textarea, select{
   font-family:inherit;
 }
 
+input:focus, textarea:focus, select:focus{
+  outline:none;
+  border-color:rgba(45,212,191,0.6);
+  box-shadow:0 0 0 3px rgba(45,212,191,0.12);
+}
+
 select{
   appearance:none;
   background-image:linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
@@ -87,10 +95,60 @@ button{
   color:white;
   font-weight:600;
   cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:48px;
 }
 button:hover{opacity:0.92}
+button:disabled{opacity:0.75;cursor:not-allowed}
 .hidden{display:none}
 .helper{font-size:12px;color:var(--muted);margin-top:6px}
+
+.status{
+  display:none;
+  margin-top:20px;
+  padding:12px 14px;
+  border-radius:10px;
+  font-size:14px;
+  border:1px solid transparent;
+}
+.status--success{
+  display:block;
+  color:var(--success);
+  background:rgba(45,212,191,0.08);
+  border-color:rgba(45,212,191,0.22);
+}
+.status--error{
+  display:block;
+  color:#fca5a5;
+  background:rgba(239,68,68,0.08);
+  border-color:rgba(239,68,68,0.22);
+}
+
+.spinner{
+  width:16px;
+  height:16px;
+  border:2px solid rgba(255,255,255,0.35);
+  border-top-color:#ffffff;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  display:none;
+}
+button.loading .spinner{display:inline-block}
+button.loading .button-text{opacity:0.95}
+
+.meta-note{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:18px;
+  line-height:1.6;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
 
 </style>
 </head>
@@ -107,15 +165,22 @@ button:hover{opacity:0.92}
     <div class="tab" onclick="switchTab('bug')">Report a Bug</div>
   </div>
 
-  <form id="contact-form">
+  <!-- CONTACT FORM -->
+  <form id="contact-form" action="https://formspree.io/f/maqlvzqb" method="POST">
+    <input type="hidden" name="form-type" value="Contact">
+    <input type="hidden" name="_subject" id="contact-subject" value="Contact: Clariqo Contact">
+    <input type="hidden" name="os" id="contact-os">
+    <input type="hidden" name="ticket_id" id="contact-ticket-id">
+    <input type="hidden" name="page" value="contact.html">
+
     <div class="form-group">
       <label for="contact-email">Email Address</label>
-      <input id="contact-email" type="email" required placeholder="you@example.com">
+      <input id="contact-email" name="email" type="email" required placeholder="you@example.com">
     </div>
 
     <div class="form-group">
       <label for="contact-reason">Reason for Contact</label>
-      <select id="contact-reason" required>
+      <select name="reason" id="contact-reason" required>
         <option value="" disabled selected>Select a reason</option>
         <option>Payment or purchase issue</option>
         <option>Licence activation help</option>
@@ -126,27 +191,38 @@ button:hover{opacity:0.92}
         <option>General support enquiry</option>
         <option>My issue is not listed here</option>
       </select>
-      <div class="helper">This selected reason will be used as the subject line.</div>
+      <div class="helper">This will be used as the email subject.</div>
     </div>
 
     <div class="form-group">
       <label for="contact-message">Your Message (max 500 words)</label>
-      <textarea id="contact-message" placeholder="Write your message here..." required></textarea>
+      <textarea name="message" id="contact-message" required></textarea>
       <div class="char-count" id="contact-counter">0 / 500 words</div>
     </div>
 
-    <button type="submit">Send Message</button>
+    <button type="submit" id="contact-submit">
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="button-text">Send Message</span>
+    </button>
+    <div class="status" id="contact-status"></div>
   </form>
 
-  <form id="bug-form" class="hidden">
+  <!-- BUG FORM -->
+  <form id="bug-form" class="hidden" action="https://formspree.io/f/maqlvzqb" method="POST">
+    <input type="hidden" name="form-type" value="Bug Report">
+    <input type="hidden" name="_subject" id="bug-subject" value="Bug Report: Clariqo Bug Report">
+    <input type="hidden" name="os" id="bug-os">
+    <input type="hidden" name="ticket_id" id="bug-ticket-id">
+    <input type="hidden" name="page" value="contact.html">
+
     <div class="form-group">
       <label for="bug-email">Email Address</label>
-      <input id="bug-email" type="email" required placeholder="you@example.com">
+      <input id="bug-email" name="email" type="email" required placeholder="you@example.com">
     </div>
 
     <div class="form-group">
       <label for="bug-reason">Bug Type</label>
-      <select id="bug-reason" required>
+      <select name="reason" id="bug-reason" required>
         <option value="" disabled selected>Select a bug type</option>
         <option>App crashes on launch</option>
         <option>Feature not responding</option>
@@ -158,36 +234,41 @@ button:hover{opacity:0.92}
         <option>Performance or freezing issue</option>
         <option>My issue is not listed here</option>
       </select>
-      <div class="helper">This selected bug type will be used as the subject line.</div>
+      <div class="helper">This will be used as the email subject.</div>
     </div>
 
     <div class="form-group">
       <label for="bug-message">Describe the Bug (max 500 words)</label>
-      <textarea id="bug-message" placeholder="What happened? What did you expect to happen? Include any steps to reproduce it." required></textarea>
+      <textarea name="message" id="bug-message" required placeholder="What happened? What did you expect to happen? Include any steps to reproduce it."></textarea>
       <div class="char-count" id="bug-counter">0 / 500 words</div>
     </div>
 
-    <button type="submit">Submit Bug Report</button>
+    <button type="submit" id="bug-submit">
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="button-text">Submit Bug Report</span>
+    </button>
+    <div class="status" id="bug-status"></div>
   </form>
+
+  <div class="meta-note">Each submission includes your selected reason, your message, your operating system, and a unique 10-digit support ID for tracking.</div>
 </div>
 
 <script>
-const SUPPORT_EMAIL = 'contact@clariqoapp.com';
+const FORMSPREE_URL = 'https://formspree.io/f/maqlvzqb';
 
 function switchTab(type){
-  const contactTab = document.querySelectorAll('.tab')[0];
-  const bugTab = document.querySelectorAll('.tab')[1];
+  const tabs = document.querySelectorAll('.tab');
   const contactForm = document.getElementById('contact-form');
   const bugForm = document.getElementById('bug-form');
 
   if(type === 'contact'){
-    contactTab.classList.add('active');
-    bugTab.classList.remove('active');
+    tabs[0].classList.add('active');
+    tabs[1].classList.remove('active');
     contactForm.classList.remove('hidden');
     bugForm.classList.add('hidden');
   } else {
-    bugTab.classList.add('active');
-    contactTab.classList.remove('active');
+    tabs[1].classList.add('active');
+    tabs[0].classList.remove('active');
     bugForm.classList.remove('hidden');
     contactForm.classList.add('hidden');
   }
@@ -204,30 +285,114 @@ function handleWordLimit(textarea, counter){
   });
 }
 
-function submitViaMailto(email, reason, message, prefix){
-  const subject = `${prefix}: ${reason}`;
-  const body = `From: ${email}\n\nReason: ${reason}\n\nMessage:\n${message}`;
-  const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailto;
+function detectOS(){
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  if (/windows phone/i.test(ua)) return 'Windows Phone';
+  if (/win/i.test(ua)) return 'Windows';
+  if (/android/i.test(ua)) return 'Android';
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return 'iOS';
+  if (/Mac/i.test(ua)) return 'macOS';
+  if (/Linux/i.test(ua)) return 'Linux';
+  return 'Unknown';
+}
+
+function generateTicketId(){
+  return String(Math.floor(1000000000 + Math.random() * 9000000000));
+}
+
+function setStatus(el, type, message){
+  el.className = 'status';
+  el.textContent = message;
+  if(type === 'success') el.classList.add('status--success');
+  if(type === 'error') el.classList.add('status--error');
+}
+
+function clearStatus(el){
+  el.className = 'status';
+  el.textContent = '';
+}
+
+function setLoading(button, loading){
+  if(loading){
+    button.disabled = true;
+    button.classList.add('loading');
+  } else {
+    button.disabled = false;
+    button.classList.remove('loading');
+  }
+}
+
+async function submitForm(form, button, statusEl){
+  clearStatus(statusEl);
+  setLoading(button, true);
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if(response.ok){
+      const ticketId = formData.get('ticket_id');
+      setStatus(statusEl, 'success', `Message sent successfully. Your support ID is ${ticketId}.`);
+      form.reset();
+      if(form.id === 'contact-form'){
+        document.getElementById('contact-counter').textContent = '0 / 500 words';
+      } else {
+        document.getElementById('bug-counter').textContent = '0 / 500 words';
+      }
+      refreshFormMetadata();
+    } else {
+      let errorMessage = 'Something went wrong while sending your message. Please try again.';
+      try {
+        const data = await response.json();
+        if(data && data.errors && data.errors.length){
+          errorMessage = data.errors.map(err => err.message).join(' ');
+        }
+      } catch (_) {}
+      setStatus(statusEl, 'error', errorMessage);
+    }
+  } catch (error) {
+    setStatus(statusEl, 'error', 'Unable to send right now. Please check your connection and try again.');
+  } finally {
+    setLoading(button, false);
+  }
+}
+
+function refreshFormMetadata(){
+  const os = detectOS();
+  document.getElementById('contact-os').value = os;
+  document.getElementById('bug-os').value = os;
+  document.getElementById('contact-ticket-id').value = generateTicketId();
+  document.getElementById('bug-ticket-id').value = generateTicketId();
 }
 
 handleWordLimit(document.getElementById('contact-message'), document.getElementById('contact-counter'));
 handleWordLimit(document.getElementById('bug-message'), document.getElementById('bug-counter'));
+refreshFormMetadata();
+
+// Update subject dynamically
+document.getElementById('contact-reason').addEventListener('change', function(){
+  document.getElementById('contact-subject').value = 'Contact: ' + this.value;
+});
+
+document.getElementById('bug-reason').addEventListener('change', function(){
+  document.getElementById('bug-subject').value = 'Bug Report: ' + this.value;
+});
 
 document.getElementById('contact-form').addEventListener('submit', function(e){
   e.preventDefault();
-  const email = document.getElementById('contact-email').value.trim();
-  const reason = document.getElementById('contact-reason').value;
-  const message = document.getElementById('contact-message').value.trim();
-  submitViaMailto(email, reason, message, 'Contact');
+  submitForm(this, document.getElementById('contact-submit'), document.getElementById('contact-status'));
 });
 
 document.getElementById('bug-form').addEventListener('submit', function(e){
   e.preventDefault();
-  const email = document.getElementById('bug-email').value.trim();
-  const reason = document.getElementById('bug-reason').value;
-  const message = document.getElementById('bug-message').value.trim();
-  submitViaMailto(email, reason, message, 'Bug Report');
+  submitForm(this, document.getElementById('bug-submit'), document.getElementById('bug-status'));
 });
 </script>
 
