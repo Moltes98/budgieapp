@@ -1200,8 +1200,9 @@
 	  @media (max-width: 768px) {
 
   .nav {
-    padding: 8px 16px !important;
-    height: auto !important;
+    position: relative;
+    display: flex;
+    justify-content: center;
   }
 
   .nav__inner {
@@ -1209,13 +1210,15 @@
   }
 
   .nav__logo {
-    gap: 8px !important;
-    font-size: 16px !important;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px !important;
   }
 
   .nav__logo img {
-    width: 34px !important;
-    height: 34px !important;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .nav__links {
@@ -1270,9 +1273,12 @@
         justify-content: center;
       }
 
-      .hero__mockups {
-        margin-top: 36px;
-      }
+       .hero__mockups {
+    display: flex;
+    justify-content: center;
+    transform: scale(0.75);
+    transform-origin: top center;
+  }
 
       .mockup-window {
         width: 100%;
