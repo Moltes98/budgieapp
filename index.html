@@ -54,10 +54,10 @@
       --budgie-dark:   #0f1117;   /* near-black background */
       --budgie-panel:  #191d27;   /* card / sidebar background */
       --budgie-border: #252b3a;   /* subtle panel border */
-      --budgie-green:  #2dd4bf;   /* primary accent (money green) */
-      --budgie-teal:   #2563eb;   /* secondary accent */
-      --budgie-text:   #e8ecf4;   /* primary text on dark bg */
-      --budgie-muted:  #6b7694;   /* secondary/muted text */
+      --budgie-green:  #2ce2ad;   /* primary accent (logo blue) */
+      --budgie-teal:   #2ce2ad;   /* secondary accent */
+      --budgie-text:   #2d94da;   /* primary text on dark bg */
+      --budgie-muted:  #ffffff;   /* secondary/muted text */
 
       /* --- Clariqo Business palette --- */
       --biz-light:     #f4f6fb;   /* light background */
@@ -217,6 +217,9 @@
       align-items: center;
       gap: 32px;
       list-style: none;
+	  display: flex;
+		align-items: center;
+		gap: 18px;
     }
 
     .nav__links a {
@@ -1176,15 +1179,18 @@
       min-width: 560px;
     }
 
-    @media (max-width: 1024px) {
-      .hero__mockups {
-        gap: 16px;
-      }
+    @media (max-width: 768px) {
+  .privacy-banner {
+    padding: 28px 20px;
+	
+  }
+}
 
-      .mockup-window {
-        width: min(100%, 560px);
-      }
-    }
+@media (max-width: 480px) {
+  .privacy-banner {
+    padding: 24px 16px;
+  }
+}
 
     @media (max-width: 768px) {
       .container {
@@ -1357,8 +1363,143 @@
       .pricing-card {
         padding: 24px 20px;
       }
-    }
+	  .privacy-banner {
+  background: linear-gradient(135deg, rgba(45,212,191,0.08), rgba(37,99,235,0.08));
+  border: 1px solid rgba(45,212,191,0.18);
+  border-radius: var(--radius-lg);
+  padding: 42px;
+  position: relative;
+  overflow: hidden;
+}
 
+.privacy-banner::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.privacy-banner .section__description {
+  max-width: 700px;
+}
+.nav__socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  color: var(--budgie-muted);
+  border: 1px solid var(--budgie-border);
+  transition: 0.2s ease;
+}
+
+.nav__socials a:hover {
+  color: #2dd4bf;
+  border-color: rgba(45,212,191,0.4);
+  background: rgba(45,212,191,0.08);
+}
+
+.nav__socials svg {
+  width: 16px;
+  height: 16px;
+}
+.floating-socials {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+}
+
+.floating-socials a {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(25, 29, 39, 0.85);
+  border: 1px solid var(--budgie-border);
+  color: var(--budgie-muted);
+  backdrop-filter: blur(8px);
+  transition: 0.25s ease;
+}
+
+.floating-socials a:hover {
+  color: var(--budgie-green);
+  border-color: rgba(45,212,191,0.4);
+  background: rgba(45,212,191,0.08);
+  transform: translateY(-2px);
+}
+
+.floating-socials svg {
+  width: 18px;
+  height: 18px;
+}
+    }
+.floating-socials{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:10px;
+  z-index:9999;
+}
+
+.floating-socials a{
+  width:72px;
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:rgba(25,29,39,0.92);
+  border:1px solid var(--budgie-border);
+  color:var(--budgie-muted);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.25);
+  transition:0.25s ease;
+  flex:0 0 auto;
+}
+
+.floating-socials a:hover{
+  color:var(--budgie-green);
+  border-color:rgba(45,212,191,0.4);
+  background:rgba(45,212,191,0.08);
+  transform:translateY(-2px);
+}
+
+.floating-socials svg{
+  width:18px;
+  height:18px;
+  display:block;
+}
+
+@media (max-width:768px){
+  .floating-socials{
+    right:14px;
+    bottom:14px;
+    gap:8px;
+  }
+
+  .floating-socials a{
+    width:38px;
+    height:38px;
+  }
+
+  .floating-socials svg{
+    width:16px;
+    height:16px;
+  }
   </style>
 </head>
 
@@ -1377,10 +1518,12 @@
       <li><a href="#budgie">Features</a></li>
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#compare">Why Clariqo?</a></li>
+	  
 	  <li><a href="assets/contact.html" class="nav__contact">Contact</a></li>
       <li><a href="assets/clariqofree.zip" download="clariqofree" class="nav__cta">Download Free</a></li>
     </ul>
   </nav>
+  
 
   <section class="hero">
     <div class="container">
@@ -1409,7 +1552,7 @@
             See how it works →
           </a>
         </div>
-
+		
       </div>
 
       <div class="hero__mockups fade-up">
@@ -1487,6 +1630,7 @@
         </div>
 
       </div>
+	  
 
       <div class="fade-up" style="display:flex;justify-content:center;">
         <div class="made-in-britain">
@@ -1544,6 +1688,20 @@
       </div>
     </div>
   </div>
+  
+  <section class="section section--budgie">
+  <div class="container">
+    <div class="privacy-banner fade-up">
+      <div class="pill pill--green">Privacy First</div>
+      <h2 class="section__title" style="margin-top:16px;">
+        Your finances. Your device,<br>Nobody else's business.
+      </h2>
+      <p class="section__description">
+        Built for people who want financial clarity without handing over their personal data. Clariqo stores your budgeting data locally on your device, with no cloud dependency and no tracking of what you do inside the app.
+      </p>
+    </div>
+  </div>
+</section>
 
   <section class="section section--budgie" id="how-it-works">
     <div class="container">
@@ -1736,7 +1894,7 @@
           </div>
 
           <div class="pricing-card pricing-card--dark featured fade-up">
-            <div class="pricing-card__badge">Best Value</div>
+            <div class="pricing-card__badge">PREMIUM</div>
             <div class="pricing-card__name"><h2 style="color:var(--budgie-green);">Premium</h2></div>
 			<div class="pricing-card__name"><h1 style="color:orange;">SPECIAL OFFER!</h1></div>
             <div class="pricing-card__price" style="color:var(--budgie-muted"><s>£34.99</s> <h2 style="color:var(--budgie-green);">£19.99</h2></div>
@@ -1962,6 +2120,26 @@
     updateDeviceType();
     window.addEventListener('resize', updateDeviceType, { passive: true });
   </script>
+
+<div class="floating-socials">
+  <a href="https://x.com/clariqoapp" target="_blank" aria-label="X">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.901 1.153h3.68l-8.04 9.188 9.46 12.506h-7.406l-5.8-7.59-6.64 7.59H.476l8.6-9.827L0 1.153h7.594l5.243 6.932 6.064-6.932z"/>
+    </svg>
+  </a>
+
+  <a href="https://www.facebook.com/profile.php?id=61573287064168" target="_blank" aria-label="Facebook">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 12a10 10 0 10-11.563 9.875v-6.987H7.898v-2.888h2.539V9.845c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.888h-2.33v6.987A10.001 10.001 0 0022 12z"/>
+    </svg>
+  </a>
+
+  <a href="https://tiktok.com" target="_blank" aria-label="TikTok">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M21 8.5a7.5 7.5 0 01-4.5-1.5v6.75a5.25 5.25 0 11-4.5-5.195v2.29a2.96 2.96 0 102.25 2.855V0h2.25a4.5 4.5 0 004.5 4.5V8.5z"/>
+    </svg>
+  </a>
+</div>
 
 </body>
 
