@@ -52,6 +52,7 @@
     :root {
       /* --- Clariqo (Personal) palette --- */
       --budgie-dark:   #0f1117;   /* near-black background */
+	  --budgie-premium:   #ffb752;   /* near-black background */
       --budgie-panel:  #191d27;   /* card / sidebar background */
       --budgie-border: #252b3a;   /* subtle panel border */
       --budgie-green:  #2ce2ad;   /* primary accent (logo blue) */
@@ -240,6 +241,37 @@
     }
 
     .nav__cta:hover { opacity: 0.88; }
+	
+	.nav__cta--premium {
+    /* Gradient */
+    background: linear-gradient(135deg, #7b5cff, #00d4a7);
+
+    /* Text */
+    color: white;
+
+    /* Smooth animation */
+    transition: all 0.3s ease;
+
+    /* Glow */
+    box-shadow: 0 0 10px rgba(123, 92, 255, 0.4),
+                0 0 20px rgba(0, 212, 167, 0.3);
+}
+
+/* Hover */
+.nav__cta--premium:hover {
+    transform: translateY(-2px) scale(1.03);
+
+    background: linear-gradient(135deg, #6a4fff, #00c896);
+
+    box-shadow: 0 0 15px rgba(123, 92, 255, 0.6),
+                0 0 30px rgba(0, 212, 167, 0.5);
+}
+
+/* Click */
+.nav__cta--premium:active {
+    transform: scale(0.97);
+}
+	
 
     /* ============================================================
        HERO SECTION
@@ -1689,6 +1721,8 @@
       <li><a href="#compare">Why Clariqo?</a></li>
 	  
 	  <li><a href="assets/contact.html" class="nav__contact">Contact</a></li>
+	  
+	  <li><a href="assets/store.html" class="nav__cta nav__cta--premium">Get Premium</a></li>
       <li><a href="assets/clariqofree.zip" download="clariqofree" class="nav__cta">Download Free</a></li>
     </ul>
   </nav>
@@ -1710,6 +1744,7 @@
           subscriptions, recurring costs, and tracked card spending so you can see what you can
           actually afford to use right now.
         </p>
+
 
         <div class="hero__actions fade-up">
           <a href="assets/clariqofree.zip" download="clariqofree" class="btn btn--green">
@@ -2077,7 +2112,7 @@
               <li>Auto-updates via GitHub</li>
 			  
             </ul>
-            <a href="https://clariqoapp.gumroad.com/l/pkvfnl" class="btn btn--green" style="width:100%;justify-content:center">Get Premium</a>
+            <a href="assets/store.html" class="btn btn--green nav__cta--premium" style="width:100%;justify-content:center">Get Premium</a>
           </div>
         </div>
       </div>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clariqo Premium — Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f1117;
+      --panel: #191d27;
+      --panel-2: #121824;
+      --border: #252b3a;
+      --teal: #2dd4bf;
+      --blue: #2563eb;
+      --text: #e8ecf4;
+      --muted: #6b7694;
+      --success: #3dd68c;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --shadow: 0 40px 80px rgba(0,0,0,0.45);
+      --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      height: 72px;
+      background: rgba(15, 17, 23, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav__inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .nav__logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav__logo img {
+      width: 148px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      list-style: none;
+    }
+
+    .nav__links a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color var(--transition);
+    }
+
+    .nav__links a:hover { color: var(--text); }
+
+    .nav__back {
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text) !important;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .hero {
+      position: relative;
+      padding: 132px 0 70px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 20% 20%, rgba(45,212,191,0.09) 0%, transparent 68%),
+        radial-gradient(ellipse 50% 50% at 85% 30%, rgba(37,99,235,0.09) 0%, transparent 62%),
+        radial-gradient(ellipse 40% 40% at 55% 85%, rgba(37,99,235,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 52px 52px;
+      pointer-events: none;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0));
+    }
+
+    .hero__grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(45,212,191,0.10);
+      border: 1px solid rgba(45,212,191,0.24);
+      margin-bottom: 18px;
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 78px);
+      line-height: 1.03;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+
+    .hero__title .accent {
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero__subtitle {
+      max-width: 620px;
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .hero__actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: all var(--transition);
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn--primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      box-shadow: 0 16px 40px rgba(37,99,235,0.28);
+    }
+
+    .btn--primary:hover { transform: translateY(-2px); }
+
+    .btn--ghost {
+      color: var(--text);
+      background: rgba(255,255,255,0.02);
+      border-color: var(--border);
+    }
+
+    .btn--ghost:hover {
+      border-color: rgba(45,212,191,0.26);
+      transform: translateY(-2px);
+    }
+
+    .hero__meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero__card {
+      background: linear-gradient(180deg, rgba(25,29,39,0.96), rgba(18,24,36,0.96));
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
+    .card__titlebar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .dot:nth-child(1) { background: #ff5f57; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #28c840; }
+
+    .card__titlebar span {
+      margin-left: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .store-panel {
+      padding: 24px;
+    }
+
+    .price-block {
+      padding: 18px 18px 16px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(45,212,191,0.10), rgba(37,99,235,0.08));
+      border: 1px solid rgba(45,212,191,0.24);
+      margin-bottom: 18px;
+    }
+
+    .price-block__eyebrow {
+      color: var(--teal);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .price-block__price {
+      font-family: var(--font-display);
+      font-size: 48px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .price-block__sub {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .store-list {
+      display: grid;
+      gap: 10px;
+      margin: 18px 0 20px;
+    }
+
+    .store-list li {
+      list-style: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .store-list li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      margin-top: 1px;
+      flex: 0 0 auto;
+    }
+
+    .integration-note {
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px dashed rgba(37,99,235,0.35);
+      padding: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .integration-note strong { color: var(--text); }
+    .integration-note code {
+      color: var(--teal);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .section {
+      padding: 34px 0 90px;
+    }
+
+    .section__title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section__desc {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 40px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .feature-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.32);
+      border-color: rgba(45,212,191,0.18);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(45,212,191,0.14), rgba(37,99,235,0.12));
+      border: 1px solid rgba(45,212,191,0.16);
+      color: var(--teal);
+      font-size: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .compare-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(25,29,39,0.96), rgba(18,24,36,0.96));
+    }
+
+    .compare {
+      width: 100%;
+      min-width: 740px;
+      border-collapse: collapse;
+    }
+
+    .compare th,
+    .compare td {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .compare th {
+      color: var(--text);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .compare td { color: var(--muted); }
+    .compare td:first-child { color: var(--text); font-weight: 500; }
+    .compare td.check { color: var(--success); font-weight: 700; }
+    .compare td.cross { opacity: 0.38; }
+
+    .checkout-anchor {
+      scroll-margin-top: 110px;
+    }
+
+    .checkout-card {
+      margin-top: 28px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+
+    .checkout-card__title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .checkout-card__desc {
+      color: var(--muted);
+      margin-bottom: 18px;
+      max-width: 760px;
+    }
+
+    .checkout-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(37,99,235,0.22);
+      background: linear-gradient(135deg, rgba(45,212,191,0.06), rgba(37,99,235,0.08));
+    }
+
+    .checkout-box__meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .checkout-box__meta strong {
+      display: block;
+      color: var(--text);
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .placeholder-btn {
+      min-width: 230px;
+    }
+
+    .dev-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .dev-note code {
+      color: var(--teal);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .footer {
+      padding: 40px 0 50px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .hero__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .checkout-box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 16px; }
+      .nav { height: auto; min-height: 68px; }
+      .nav__inner { padding: 10px 0; align-items: center; }
+      .nav__logo img { width: 132px; }
+      .nav__links { display: none; }
+      .hero { padding-top: 106px; }
+      .hero__actions { flex-direction: column; align-items: stretch; }
+      .hero__actions .btn { width: 100%; }
+      .store-panel { padding: 18px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .section { padding-bottom: 72px; }
+      .checkout-card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav__inner">
+      <a class="nav__logo" href="index.html" aria-label="Clariqo home">
+        <img src="https://i.postimg.cc/zfNKvjGN/Clariqo-Main-Logo.png" alt="Clariqo" />
+      </a>
+
+      <ul class="nav__links">
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="index.html#compare">Compare</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="../index.html" style="display:inline-flex;align-items:center;gap:8px;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:8px 14px;border-radius:8px;transition:0.2s">
+      ← Back
+    </a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container hero__grid">
+      <div>
+        <div class="pill">Premium Store</div>
+        <h1 class="hero__title">
+          Unlock <span class="accent">Clariqo Premium</span><br />
+          without leaving your brand behind.
+        </h1>
+        <p class="hero__subtitle">
+          This page is built to sell the premium version of Clariqo directly from your site. It is ready for a Lemon Squeezy checkout button or overlay later, while already looking polished and product-ready now.
+        </p>
+
+        <div class="hero__actions">
+          <a href="#checkout" class="btn btn--primary">Buy Premium</a>
+          <a href="assets/clariqofree.zip" download="clariqofree" class="btn btn--ghost">Download Free First</a>
+        </div>
+
+        <div class="hero__meta">
+          One-time upgrade. No subscription. Built for a smooth future Lemon Squeezy integration.
+        </div>
+      </div>
+
+      <div class="hero__card">
+        <div class="card__titlebar">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <span>Clariqo Premium — checkout preview</span>
+        </div>
+
+        <div class="store-panel">
+          <div class="price-block">
+            <div class="price-block__eyebrow">Premium Upgrade</div>
+            <div class="price-block__price">£19</div>
+            <div class="price-block__sub">Example price — change anytime before connecting live checkout.</div>
+          </div>
+
+          <ul class="store-list">
+            <li>Full analytics and charts</li>
+            <li>PDF exports and premium summaries</li>
+            <li>Credit card and debt tracking</li>
+            <li>Investment tracking and premium insights</li>
+            <li>Priority updates as premium grows</li>
+          </ul>
+
+          <div class="integration-note">
+            <strong>Lemon Squeezy ready:</strong> replace the placeholder button with your Lemon Squeezy checkout URL later, or attach Lemon.js to open a checkout overlay from this exact page. The easiest swap point is the button with <code>id="buy-premium-btn"</code> below.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title">What Premium adds</h2>
+      <p class="section__desc">
+        Keep the same clean Clariqo experience, but unlock the more advanced tools that make the app feel complete for serious personal budgeting.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📈</div>
+          <h3>Advanced analytics</h3>
+          <p>See richer breakdowns, comparisons, and trend views across your budgeting data.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>Export tools</h3>
+          <p>Create clean premium exports and downloadable summaries when you need hard copies.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💳</div>
+          <h3>Card tracking</h3>
+          <p>Track credit card spending and hidden liabilities more clearly as part of your real spendable balance.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏦</div>
+          <h3>Savings and investing</h3>
+          <p>Manage savings goals and investment allocations in one consistent Clariqo workflow.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>One-time upgrade</h3>
+          <p>Pay once, unlock the premium feature set, and avoid subscription fatigue.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Local-first still</h3>
+          <p>Premium features do not change the core privacy promise: your finances stay on your device.</p>
+        </div>
+      </div>
+
+      <div class="compare-wrap">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Free</th>
+              <th>Premium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Real spendable balance</td>
+              <td class="check">✓</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td>Recurring expense tracking</td>
+              <td class="check">✓</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td>Joint and personal budgeting</td>
+              <td class="check">✓</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td>Advanced analytics and charts</td>
+              <td class="cross">—</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td>PDF export</td>
+              <td class="cross">—</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td>Credit card and debt tracking</td>
+              <td class="cross">—</td>
+              <td class="check">✓</td>
+            </tr>
+            <tr>
+              <td>Investment tracking</td>
+              <td class="cross">—</td>
+              <td class="check">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="checkout" class="checkout-anchor"></div>
+      <div class="checkout-card">
+        <div class="checkout-card__title">Checkout integration area</div>
+        <div class="checkout-card__desc">
+          This is the section to wire into Lemon Squeezy later. Right now it uses a placeholder button so the page is presentable before live checkout is connected.
+        </div>
+
+        <div class="checkout-box">
+          <div class="checkout-box__meta">
+            <strong>Clariqo Premium</strong>
+            One-time premium activation purchase. Replace this with a Lemon Squeezy overlay or hosted checkout when ready.
+          </div>
+
+          <button id="buy-premium-btn" class="btn btn--primary placeholder-btn" type="button">
+            Buy Premium
+          </button>
+        </div>
+
+        <div class="dev-note">
+          <strong>Later integration:</strong> either replace the button with a Lemon Squeezy checkout link, or attach Lemon.js to <code>#buy-premium-btn</code> and trigger the checkout overlay. This page is intentionally structured so that the payment flow can drop in without redesigning the store page.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Clariqo Premium Store — ready for Lemon Squeezy integration.
+  </footer>
+
+  <script>
+    // Placeholder only. Replace later with Lemon Squeezy integration.
+    document.getElementById('buy-premium-btn').addEventListener('click', function () {
+      alert('Connect this button to Lemon Squeezy later.\n\nYou can replace this with a hosted checkout link or a Lemon.js overlay.');
+    });
+  </script>
+</body>
+</html>
