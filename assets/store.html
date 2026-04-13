@@ -6,7 +6,7 @@
   <title>Clariqo Premium</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
   
@@ -59,9 +59,44 @@
       --radius-lg:22px;
       --shadow:0 40px 80px rgba(0,0,0,0.45);
       --transition:0.28s cubic-bezier(0.4,0,0.2,1);
-      --font-display:'Playfair Display', Georgia, serif;
-      --font-body:'DM Sans', system-ui, sans-serif;
+      --font-display:'Outfit', system-ui, sans-serif;
+      --font-body:'Manrope', system-ui, sans-serif;
     }
+
+    /* ── PAGE LOAD FADE-IN ──────────────────────────────────────
+       Elements with .reveal animate in on load with stagger.
+       .reveal-instant fires immediately (nav, logo).
+       .reveal fires with a per-child delay via nth-child.
+       No IntersectionObserver needed — all above-the-fold.
+    ────────────────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Scroll-triggered fade for below-fold content */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(1) { transition-delay: 0s;    }
+    .fade-up:nth-child(2) { transition-delay: 0.07s; }
+    .fade-up:nth-child(3) { transition-delay: 0.14s; }
+    .fade-up:nth-child(4) { transition-delay: 0.21s; }
+    .fade-up:nth-child(5) { transition-delay: 0.28s; }
+    .fade-up:nth-child(6) { transition-delay: 0.35s; }
+    .fade-up:nth-child(7) { transition-delay: 0.42s; }
+    .fade-up:nth-child(8) { transition-delay: 0.49s; }
+    .fade-up:nth-child(9) { transition-delay: 0.56s; }
 
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -186,10 +221,12 @@
 
     .hero__title{
       font-family:var(--font-display);
-      font-size:clamp(40px, 6vw, 78px);
-      line-height:1.03;
+      font-size:clamp(38px, 5.5vw, 74px);
+      font-weight:900;
+      line-height:1.04;
       letter-spacing:-0.03em;
       margin-bottom:18px;
+      color: var(--text);
     }
 
     .hero__title .accent{
@@ -251,21 +288,54 @@
       font-size:14px;
     }
 
-    .hero__card{
-      background:linear-gradient(180deg, rgba(25,29,39,0.96), rgba(18,24,36,0.96));
-      border:1px solid var(--border);
-      border-radius:var(--radius-lg);
-      box-shadow:var(--shadow), 0 0 0 1px rgba(255,255,255,0.03);
-      overflow:hidden;
+    /* ── ENHANCED PURCHASE CARD ─────────────────────────────────
+       Replaces the original .hero__card styling.
+       Uses a stronger glow, animated border shimmer,
+       and a more premium inner price block treatment.
+    ────────────────────────────────────────────────────────── */
+    .hero__card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: visible; /* allow glow to spill out */
+    }
+
+    /* Outer ambient glow behind the card */
+    .hero__card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: calc(var(--radius-lg) + 2px);
+      background: linear-gradient(135deg, rgba(45,212,191,0.35), rgba(37,99,235,0.35), rgba(45,212,191,0.2));
+      z-index: -1;
+      filter: blur(12px);
+      opacity: 0.6;
+      animation: card-glow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes card-glow {
+      0%   { opacity: 0.45; filter: blur(12px); }
+      100% { opacity: 0.85; filter: blur(18px); }
+    }
+
+    /* The card inner surface */
+    .hero__card-inner {
+      background: linear-gradient(170deg, rgba(22,28,42,0.98), rgba(14,20,32,0.99));
+      border: 1px solid rgba(45,212,191,0.28);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.05);
     }
 
     .card__titlebar{
       display:flex;
       align-items:center;
       gap:7px;
-      padding:12px 16px;
-      background:rgba(255,255,255,0.03);
-      border-bottom:1px solid var(--border);
+      padding:12px 18px;
+      background: rgba(45,212,191,0.04);
+      border-bottom: 1px solid rgba(45,212,191,0.15);
     }
 
     .dot{
@@ -282,184 +352,212 @@
       margin-left:8px;
       color:var(--muted);
       font-size:12px;
+      font-family: var(--font-body);
     }
 
-    .store-panel{padding:24px}
+    .store-panel { padding: 26px; }
 
-    .price-block{
-      padding:18px 18px 16px;
-      border-radius:16px;
-      background:linear-gradient(135deg, rgba(45,212,191,0.10), rgba(37,99,235,0.08));
-      border:1px solid rgba(45,212,191,0.24);
-      margin-bottom:18px;
+    /* ── PRICE BLOCK — premium treatment ── */
+    .price-block {
+      padding: 22px 20px 18px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(45,212,191,0.10), rgba(37,99,235,0.10));
+      border: 1px solid rgba(45,212,191,0.3);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle shimmer sweep across price block */
+    .price-block::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+      animation: shimmer 3.5s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { left: -100%; }
+      60%  { left: 130%; }
+      100% { left: 130%; }
     }
 
     .price-block__eyebrow{
-      color:var(--teal);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
-      font-weight:700;
-      margin-bottom:8px;
+      color: var(--teal);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-family: var(--font-display);
     }
 
-    .price-block__price{
-      font-family:var(--font-display);
-      font-size:48px;
-      line-height:1;
-      margin-bottom:6px;
+    .offer-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffb752;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .offer-title::before {
+      content: '★';
+      font-size: 16px;
     }
 
-    .price-block__sub{
-      color:var(--muted);
-      font-size:14px;
+    .regional-price {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
     }
 
-    .offer-title{
-      color:orange;
-      font-size:32px;
-      line-height:1.1;
-      font-weight:700;
-      margin-bottom:10px;
+    .regional-price__old {
+      font-family: var(--font-body);
+      font-size: 20px;
+      line-height: 1;
+      opacity: 0.65;
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      text-decoration-color: rgba(255,90,90,0.9);
+      color: var(--muted);
     }
 
-    .regional-price{
-      display:flex;
-      align-items:flex-end;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:8px;
+    .regional-price__new {
+      font-family: var(--font-display);
+      font-size: 52px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      /* Gradient number */
+      background: linear-gradient(135deg, #2ce2ad, #29b6f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
-    .regional-price__old{
-      color:var(--budgie-muted);
-      font-size:22px;
-      line-height:1;
-      opacity:0.82;
-      text-decoration:line-through;
-      text-decoration-thickness:2px;
-      text-decoration-color:rgba(255, 90, 90, 0.95);
-      text-underline-offset:0.15em;
+    .regional-price__note {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--muted);
+      opacity: 0.8;
+      margin-top: 8px;
+      font-family: var(--font-body);
     }
 
-    .regional-price__new{
-      color:var(--budgie-green);
-      font-family:var(--font-display);
-      font-size:48px;
-      line-height:1;
-      font-weight:700;
-      letter-spacing:-0.02em;
+    .price-block__sub {
+      color: var(--muted);
+      font-size: 13px;
+      font-family: var(--font-body);
+      line-height: 1.5;
     }
 
-    .regional-price__note{
-      font-size:12px;
-      line-height:1.5;
-      color:var(--muted);
-      opacity:0.9;
-      margin-top:8px;
+    /* ── STORE LIST ── */
+    .store-list {
+      display: grid;
+      gap: 9px;
+      margin: 18px 0 20px;
     }
 
-    .store-list{
-      display:grid;
-      gap:10px;
-      margin:18px 0 20px;
+    .store-list li {
+      list-style: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-family: var(--font-body);
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .store-list li{
-      list-style:none;
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      color:var(--muted);
-      font-size:14px;
+    .store-list li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      margin-top: 1px;
+      flex: 0 0 auto;
     }
 
-    .store-list li::before{
-      content:'✓';
-      color:var(--success);
-      font-weight:700;
-      margin-top:1px;
-      flex:0 0 auto;
+    /* ── BUY BUTTON — prominent ── */
+    .btn--primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      box-shadow: 0 8px 28px rgba(37,99,235,0.35), 0 0 0 1px rgba(45,212,191,0.2);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      transition: all var(--transition);
     }
 
-    .integration-note{
-      border-radius:14px;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(37,99,235,0.22);
-      padding:16px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.7;
+    .btn--primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(37,99,235,0.5), 0 0 0 1px rgba(45,212,191,0.35);
     }
 
-    .integration-note strong{color:var(--text)}
+    .btn--full {
+      display: flex;
+      width: 100%;
+      padding: 16px 22px;
+      font-size: 16px;
+      justify-content: center;
+      border-radius: 10px;
+    }
+
+    /* ── INTEGRATION NOTE ── */
+    .integration-note {
+      border-radius: 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(37,99,235,0.2);
+      padding: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      font-family: var(--font-body);
+    }
+    .integration-note strong { color: var(--text); }
 
     .section{
       padding:34px 0 88px;
     }
-	.btn--full {
-  display: flex;
-  width: 100%;
-}
 
     .section__title{
-      font-family:var(--font-display);
-      font-size:clamp(30px, 4vw, 52px);
+      font-family: var(--font-display);
+      font-size:clamp(28px, 4vw, 50px);
+      font-weight: 800;
       line-height:1.08;
-      letter-spacing:-0.02em;
-      margin-bottom:16px;
+      letter-spacing:-0.025em;
+      margin-bottom:14px;
+      color: var(--text);
     }
 
     .section__desc{
       max-width:720px;
       color:var(--muted);
-      font-size:17px;
-      margin-bottom:40px;
-    }
-
-    .feature-grid{
-      display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:16px;
-      margin-bottom:26px;
-    }
-
-    .feature-card{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:var(--radius-md);
-      padding:24px;
-      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-
-    .feature-card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 18px 40px rgba(0,0,0,0.32);
-      border-color:rgba(45,212,191,0.18);
-    }
-
-    .feature-icon{
-      width:44px;
-      height:44px;
-      border-radius:12px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:16px;
-      background:linear-gradient(135deg, rgba(45,212,191,0.14), rgba(37,99,235,0.12));
-      border:1px solid rgba(45,212,191,0.16);
-      color:var(--teal);
-      font-size:20px;
-    }
-
-    .feature-card h3{
       font-size:16px;
-      margin-bottom:8px;
+      margin-bottom:40px;
+      font-family: var(--font-body);
+      line-height: 1.7;
     }
 
-    .feature-card p{
-      font-size:14px;
-      color:var(--muted);
+    .feature-card h3 {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--font-body);
+      line-height: 1.6;
     }
 
     .compare-wrap{
@@ -545,12 +643,61 @@
       margin-bottom:4px;
     }
 
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:16px;
+      margin-bottom:26px;
+    }
+
+    .feature-card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius-md);
+      padding:24px;
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .feature-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 18px 40px rgba(0,0,0,0.32);
+      border-color:rgba(45,212,191,0.18);
+    }
+
+    .feature-icon{
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:16px;
+      background:linear-gradient(135deg, rgba(45,212,191,0.14), rgba(37,99,235,0.12));
+      border:1px solid rgba(45,212,191,0.16);
+      color:var(--teal);
+      font-size:20px;
+    }
+
     .footer{
       padding:40px 0 50px;
       border-top:1px solid var(--border);
       color:var(--muted);
       text-align:center;
       font-size:13px;
+      font-family: var(--font-body);
+    }
+
+    .footer__logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .footer__tagline {
+      margin-bottom: 18px;
+      font-family: var(--font-body);
     }
 
     @media (max-width:980px){
@@ -596,24 +743,22 @@
   <section class="hero">
     <div class="container hero__grid">
       <div>
-        <div class="pill">Premium Upgrade</div>
-        <h1 class="hero__title">
+        <div class="pill reveal" data-delay="0">Premium Upgrade</div>
+        <h1 class="hero__title reveal" data-delay="80">
           Unlock <span class="accent">Clariqo Premium</span><br>
           and go beyond the basics.
         </h1>
-        <p class="hero__subtitle">
+        <p class="hero__subtitle reveal" data-delay="160">
           Get the full Clariqo experience with deeper tracking, more control, exports, reminders, and premium tools — while keeping your finances local and private.
         </p>
 
-       
-		  
-
-        <div class="hero__meta">
+        <div class="hero__meta reveal" data-delay="240">
           One-time purchase. No subscription. Stored on your device.
         </div>
       </div>
 
-      <div class="hero__card">
+      <div class="hero__card reveal" data-delay="120">
+        <div class="hero__card-inner">
         <div class="card__titlebar">
           <div class="dot"></div>
           <div class="dot"></div>
@@ -630,7 +775,7 @@
               <span class="regional-price__old" data-price-gbp="34.99">£34.99</span>
               <span class="regional-price__new" data-price-gbp="19.99">£19.99</span>
             </div>
-            <div class="price-block__sub" style="color:orange;"><i>*Limited time special offer. Offer ends at the end of the promotional period.</i></div>
+            
             <div class="regional-price__note">Displayed price is estimated by region. Final currency and taxes are shown at checkout.</div>
             <br>
             <div class="price-block__sub">One-time upgrade for the full premium feature set.</div>
@@ -660,119 +805,77 @@
   <div class="price-block__sub"><i><center>All payments are processed through <b>Stripe</b> via <b>Lemon Squeezy</b>. <b>Clariqo does not store or record any payment information.</center></b></i></div>
 </div>
         </div>
-      </div>
+        </div><!-- /.hero__card-inner -->
+      </div><!-- /.hero__card -->
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2 class="section__title">What Premium unlocks</h2>
-      <p class="section__desc">
+      <h2 class="section__title fade-up">What Premium unlocks</h2>
+      <p class="section__desc fade-up">
         Clariqo Premium adds the more advanced tools that make the app complete for serious personal budgeting without losing the privacy-first approach.
       </p>
 
       <div class="feature-grid">
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">💳</div>
           <h3>Full credit card tracking</h3>
           <p>Track balances, repayments, and card-based spending with much better visibility.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">🤝</div>
           <h3>Joint Budget Tracking</h3>
           <p>Manage shared finances clearly without losing sight of your own personal budget.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">🏠</div>
           <h3>Mortgage Tracking</h3>
           <p>Stay on top of mortgage payments, balances, and long-term progress.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">👤</div>
           <h3>Up to 2 profiles</h3>
           <p>Use separate profiles for different budgeting setups or shared use.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">📄</div>
           <h3>PDF export</h3>
           <p>Create downloadable reports and summaries when you want a clean export.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">🔔</div>
           <h3>Bill reminders</h3>
           <p>Stay ahead of payments with reminders for what is coming up next.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">📈</div>
           <h3>Investment tracking</h3>
           <p>Track contributions and keep your investment view alongside the rest of your finances.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">🔄</div>
           <h3>Auto-updates via GitHub</h3>
           <p>Get access to new versions and improvements more smoothly.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card fade-up">
           <div class="feature-icon">✅</div>
           <h3>Everything in Free</h3>
           <p>You keep all existing free features and unlock the complete premium layer on top.</p>
         </div>
       </div>
 
-      <div class="compare-wrap">
-        <table class="compare">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Free</th>
-              <th>Premium</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Real spendable balance</td><td class="check">✓</td><td class="check">✓</td></tr>
-            <tr><td>Recurring expense tracking</td><td class="check">✓</td><td class="check">✓</td></tr>
-            <tr><td>Everything in Free</td><td class="check">✓</td><td class="check">✓</td></tr>
-            <tr><td>Full credit card tracking</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>Joint Budget Tracking</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>Mortgage Tracking</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>Up to 2 profiles</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>PDF export</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>Bill reminders</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>Investment tracking</td><td class="cross">—</td><td class="check">✓</td></tr>
-            <tr><td>Auto-updates via GitHub</td><td class="cross">—</td><td class="check">✓</td></tr>
-          </tbody>
-        </table>
-      </div>
+      
 
-      <div id="checkout" class="checkout">
-        <div class="checkout__title">Checkout</div>
-        <div class="checkout__desc">
-          Buy Clariqo Premium directly from this page. Once you replace the link with your real Lemon Squeezy buy link, checkout opens here as an overlay.
-        </div>
-
-        <div class="checkout__box">
-          <div class="checkout__meta">
-            <strong>Clariqo Premium</strong>
-            One-time purchase for the complete premium feature set.
-          </div>
-
-          <a
-            id="buy-premium-btn"
-            class="btn btn--primary lemonsqueezy-button"
-            href="INSERT LEMONSQUEEZY BUY LINK HERE"
-          >
-            Buy Premium
-          </a>
-        </div>
-      </div>
+      
     </div>
   </section>
 
@@ -787,40 +890,19 @@
 
 
   <script>
+    /* ── REGIONAL PRICING ─────────────────────────────────── */
     (function () {
-      const PRICE_RATES = {
-        GBP: 1,
-        USD: 1.27,
-        EUR: 1.17
-      };
-
-      const EURO_REGIONS = [
-        'AT','BE','CY','DE','EE','ES','FI','FR','GR','HR',
-        'IE','IT','LT','LU','LV','MT','NL','PT','SI','SK'
-      ];
+      const PRICE_RATES = { GBP: 1, USD: 1.27, EUR: 1.17 };
+      const EURO_REGIONS = ['AT','BE','CY','DE','EE','ES','FI','FR','GR','HR',
+        'IE','IT','LT','LU','LV','MT','NL','PT','SI','SK'];
 
       function getCurrency() {
         const locale = (navigator.language || '').toUpperCase();
         const tz = ((Intl.DateTimeFormat().resolvedOptions() || {}).timeZone || '').toUpperCase();
-
-        if (tz === 'EUROPE/LONDON' || locale.includes('EN-GB') || locale.endsWith('-GB')) {
-          return 'GBP';
-        }
-
-        if (tz.startsWith('AMERICA/') || locale.includes('EN-US') || locale.endsWith('-US')) {
-          return 'USD';
-        }
-
-        for (const code of EURO_REGIONS) {
-          if (locale.endsWith('-' + code)) {
-            return 'EUR';
-          }
-        }
-
-        if (tz.startsWith('EUROPE/')) {
-          return 'EUR';
-        }
-
+        if (tz === 'EUROPE/LONDON' || locale.includes('EN-GB') || locale.endsWith('-GB')) return 'GBP';
+        if (tz.startsWith('AMERICA/') || locale.includes('EN-US') || locale.endsWith('-US')) return 'USD';
+        for (const code of EURO_REGIONS) { if (locale.endsWith('-' + code)) return 'EUR'; }
+        if (tz.startsWith('EUROPE/')) return 'EUR';
         return 'GBP';
       }
 
@@ -832,7 +914,6 @@
       function updateRegionalPrices() {
         const currency = getCurrency();
         const rate = PRICE_RATES[currency] || 1;
-
         document.querySelectorAll('[data-price-gbp]').forEach((el) => {
           const gbpValue = parseFloat(el.getAttribute('data-price-gbp'));
           if (!Number.isFinite(gbpValue)) return;
@@ -846,6 +927,37 @@
         updateRegionalPrices();
       }
     })();
+
+    /* ── ANIMATIONS + YEAR ────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Copyright year
+      const yr = document.getElementById('year');
+      if (yr) yr.textContent = new Date().getFullYear();
+
+      // ── Page-load reveal (hero elements, staggered by data-delay) ──
+      // Fires shortly after load so the page isn't invisible on arrival.
+      // Each .reveal element reads its own data-delay (ms) attribute.
+      document.querySelectorAll('.reveal').forEach(el => {
+        const delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+        setTimeout(() => {
+          el.classList.add('visible');
+        }, 120 + delay); // 120ms base so there's a tiny intentional pause
+      });
+
+      // ── Scroll-triggered fade-up (below-fold content) ──
+      const scrollEls = document.querySelectorAll('.fade-up');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+      scrollEls.forEach(el => observer.observe(el));
+
+    });
   </script>
 
   <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
