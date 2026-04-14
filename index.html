@@ -1079,33 +1079,197 @@
     /* ============================================================
        RESPONSIVE
     ============================================================ */
+    /* ============================================================
+       RESPONSIVE — 768px and below
+       Covers the majority of phone/tablet layout fixes.
+    ============================================================ */
     @media (max-width: 768px) {
-      .section { padding: 60px 0; }
-      .container { padding: 0 16px; }
-      .nav__links { display: none; }
-      .broker-cols { grid-template-columns: 1fr; }
-      .broker-vs { display: none; }
-      .broker-diagram__footer { grid-template-columns: 1fr; }
-      .floating-socials { right: 14px; bottom: 14px; gap: 8px; }
-      .floating-socials a { width: 38px; height: 38px; }
-      .floating-socials svg { width: 16px; height: 16px; }
-      .hero__mockups .mockup-window {
-        width: 300px !important; max-width: 300px !important;
-        margin: 0 auto !important; animation: none !important;
+
+      /* ── Sections ── */
+      .section          { padding: 56px 0; }
+      .privacy-section  { padding: 56px 0; }
+      .container        { padding: 0 16px; }
+
+      /* ── Nav ── */
+      .nav              { padding: 0 16px; }
+      .nav__logo img    { width: 110px; }
+      .nav__links       { display: none; }
+
+      /* ── Hero ── */
+      .hero {
+        min-height: auto;
+        padding-top: 88px;  /* clear the fixed nav */
+        padding-bottom: 48px;
       }
-      .hero__mockups .mockup-body { height: 175px !important; min-height: 175px !important; }
-      .hero__mockups .mockup-sidebar { width: 108px !important; }
+      .hero__inner      { text-align: center; }
+      .hero__subtitle   { max-width: 100%; font-size: 16px; }
+      .hero__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .hero__actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* ── Hero mockup ── */
+      .hero__mockups {
+        margin-top: 36px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .hero__mockups .mockup-window {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto !important;
+        animation: none !important;
+      }
+      .hero__mockups .mockup-body {
+        height: 200px !important;
+        min-height: 200px !important;
+      }
+      .hero__mockups .mockup-sidebar {
+        width: 118px !important;
+        padding: 10px 8px !important;
+        gap: 8px !important;
+      }
+      .hero__mockups .mockup-brand-box  { min-height: 40px !important; font-size: 11px !important; }
+      .hero__mockups .mockup-period-card { padding: 8px 10px !important; }
+      .hero__mockups .mockup-period-label,
+      .hero__mockups .mockup-sidebar-heading { font-size: 8px !important; }
+      .hero__mockups .mockup-period-value  { font-size: 10px !important; }
+      .hero__mockups .mockup-mini-stat     { padding: 5px 7px !important; font-size: 9px !important; }
+      .hero__mockups .mockup-mini-stat strong { font-size: 9px !important; }
+      .hero__mockups .mockup-nav-item      { padding: 5px 6px !important; font-size: 9px !important; gap: 5px !important; }
+      .hero__mockups .mockup-main          { padding: 12px !important; }
+      .hero__mockups .mockup-stat-row      { gap: 6px !important; margin-bottom: 6px !important; }
+      .hero__mockups .mockup-stat          { padding: 8px !important; }
+      .hero__mockups .mockup-stat-value    { font-size: 12px !important; }
+      .hero__mockups .mockup-bar           { height: 4px !important; margin-top: 4px !important; }
+      .hero__mockups .mockup-chart         { height: 36px !important; margin-top: 6px !important; gap: 3px !important; }
+
+      /* ── Trust strip ── */
+      .trust-strip      { padding: 28px 16px; }
+      .trust-strip__items {
+        flex-direction: column;
+        gap: 18px;
+        align-items: flex-start;
+      }
+      .trust-item       { width: 100%; }
+
+      /* ── Section headings ── */
+      .section__title   { font-size: clamp(26px, 7vw, 36px); }
+      .section__description { font-size: 15px; }
+
+      /* ── Feature & pricing grids → single column ── */
+      .feature-grid,
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      /* ── Demo strip budget rows ── */
+      .budget-row {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+      .budget-row__label {
+        width: 100%;
+        font-size: 12px;
+      }
+      .budget-row__bar  { flex: 1; }
+      .budget-row__amount {
+        width: auto;
+        margin-left: auto;
+        font-size: 12px;
+      }
+
+      /* ── Privacy quotes ── */
+      .privacy-quotes   { margin-bottom: 48px; }
+      .privacy-quote    { padding: 20px 18px; }
+      .privacy-quote p  { font-size: 16px; }
+
+      /* ── Broker diagram ── */
+      .broker-diagram   { padding: 24px 16px; }
+      .broker-cols      { grid-template-columns: 1fr; gap: 32px; }
+      .broker-vs        { display: none; }
+      .broker-diagram__footer { grid-template-columns: 1fr; }
+      /* Give nodes room to breathe on narrow screens */
+      .broker-node      { max-width: 100%; font-size: 12px; padding: 10px 12px; }
+
+      /* ── Comparison table — hide extra cols, enable scroll ── */
+      .comparison       { font-size: 13px; }
       .comparison th:not(:first-child):not(:nth-child(2)),
       .comparison td:not(:first-child):not(:nth-child(2)) { display: none; }
-      .privacy-quote { padding: 22px 22px; }
-      .broker-diagram { padding: 28px 20px; }
+
+      /* ── Pricing cards ── */
+      .pricing-card     { padding: 28px 20px; }
+
+      /* ── Download CTA ── */
+      .hero__actions.fade-up {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      /* ── Made in Britain badge ── */
+      .made-in-britain  { font-size: 12px; padding: 8px 14px; }
+
+      /* ── Footer ── */
+      .footer           { padding: 40px 16px; }
+      .footer__links    { gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+      /* ── Floating socials ── */
+      .floating-socials { right: 12px; bottom: 12px; gap: 8px; }
+      .floating-socials a { width: 38px; height: 38px; }
+      .floating-socials svg { width: 16px; height: 16px; }
+
+      /* ── Cookie banner ── */
+      .cookie-banner    { bottom: 10px; width: calc(100% - 20px); padding: 14px 16px; }
+      .cookie-inner     { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .cookie-text      { font-size: 12px; }
     }
 
+    /* ============================================================
+       RESPONSIVE — 480px and below
+       Narrowest phones (iPhone SE, Galaxy A series, etc.)
+    ============================================================ */
     @media (max-width: 480px) {
-      .hero__title { font-size: clamp(32px, 10vw, 46px); }
-      .hero__subtitle { font-size: 15px; }
-      .section__title { font-size: clamp(26px, 8vw, 36px); }
-      .privacy-quote p { font-size: 16px; }
+
+      .hero             { padding-top: 80px; }
+      .hero__title      { font-size: clamp(30px, 9.5vw, 42px); letter-spacing: -0.02em; }
+      .hero__subtitle   { font-size: 14px; line-height: 1.65; }
+
+      .section__title   { font-size: clamp(24px, 8vw, 32px); }
+      .privacy-quote p  { font-size: 15px; }
+
+      /* Mockup narrowed further for 375px phones */
+      .hero__mockups .mockup-window {
+        max-width: 310px !important;
+      }
+      .hero__mockups .mockup-body   { height: 175px !important; }
+      .hero__mockups .mockup-sidebar { width: 100px !important; }
+
+      /* Broker nodes compact */
+      .broker-node      { font-size: 11px; padding: 9px 10px; }
+      .broker-arrow__label { font-size: 9px; }
+
+      /* Pricing cards tighter */
+      .pricing-card     { padding: 24px 16px; }
+      .price-amount--current { font-size: 34px; }
+
+      /* Feature cards tighter */
+      .feature-card     { padding: 22px 18px; }
+
+      /* Trust strip items compact */
+      .trust-item       { font-size: 12px; }
+      .trust-item__icon { font-size: 16px; }
+      .trust-item strong { font-size: 12px; }
+
+      /* Footer links wrap tighter */
+      .footer__links    { gap: 10px; font-size: 12px; }
+      .footer           { font-size: 12px; }
     }
 
   </style>
@@ -1128,7 +1292,7 @@
       <li><a href="#compare">Why Clariqo?</a></li>
       <li><a href="assets/contact.html" class="nav__contact">Contact</a></li>
       <li><a href="assets/store.html" class="nav__cta nav__cta--premium">Get Premium</a></li>
-      <li><a href="assets/clariqofree.zip" download="clariqofree" class="nav__cta">Download Free</a></li>
+      <li><a href="https://github.com/Moltes98/ClariqoApp/releases/download/v2.0/Clariqo.Installer.exe" download="clariqofree" class="nav__cta">Download Free</a></li>
     </ul>
   </nav>
 
@@ -1152,7 +1316,7 @@
         </p>
 
         <div class="hero__actions fade-up">
-          <a href="assets/clariqofree.zip" download="clariqofree" class="btn btn--green">
+          <a href="https://github.com/Moltes98/ClariqoApp/releases/download/v2.0/Clariqo.Installer.exe" download="clariqofree" class="btn btn--green">
             Download Free
           </a>
           <a href="assets/store.html" class="btn nav__cta--premium">
@@ -1670,7 +1834,7 @@
               <li class="no">Full card tracking</li>
               <li class="no">Up to 2 profiles</li>
             </ul>
-            <a href="assets/clariqofree.zip" download="clariqofree"
+            <a href="https://github.com/Moltes98/ClariqoApp/releases/download/v2.0/Clariqo.Installer.exe" download="clariqofree"
                class="btn btn--ghost" style="width:100%;justify-content:center">Download Free</a>
           </div>
 
